@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Globalization;
+using AdventOfCode2020.Models;
 
-namespace AdventOfCode
+namespace AdventOfCode2020
 {
     public class ChristmasMath
     {
@@ -124,6 +127,87 @@ namespace AdventOfCode
             }
 
             return product;
+        }
+
+        public static int Day4Part1(List<string> input)
+        {
+            TextInfo currentTI = new CultureInfo("en-US", false).TextInfo;
+            ObservableCollection<Passport> passports = new ObservableCollection<Passport>();           
+
+            foreach (string line in input)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    string[] requirementsOnLine = line.Split(" ");
+                    Passport currentPastport = passports.FirstOrDefault(p=>p.Populating);
+                    if(currentPastport==null)
+                    {
+                        currentPastport = new Passport() { Populating = true};
+
+                        foreach(string requirement in requirementsOnLine)
+                        {
+                            var property = currentPastport.GetType().GetProperty(currentTI.ToTitleCase(requirement.Split(":")[0]));
+                            property.SetValue(currentPastport, requirement.Split(":")[1]);
+                        }
+
+                        passports.Add(currentPastport);
+                    }
+                    else
+                    {
+                        foreach (string requirement in requirementsOnLine)
+                        {
+                            var property = currentPastport.GetType().GetProperty(currentTI.ToTitleCase(requirement.Split(":")[0]));
+                            property.SetValue(currentPastport, requirement.Split(":")[1]);
+                        }
+                    }
+                }
+                else
+                {
+                    passports.ToList().ForEach(p => p.Populating = false);
+                }
+            }
+
+            return passports.Where(p=>p.IsValid).Count();
+        }
+        public static int Day4Part2(List<string> input)
+        {
+            TextInfo currentTI = new CultureInfo("en-US", false).TextInfo;
+            ObservableCollection<Passport> passports = new ObservableCollection<Passport>();
+
+            foreach (string line in input)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    string[] requirementsOnLine = line.Split(" ");
+                    Passport currentPastport = passports.FirstOrDefault(p => p.Populating);
+                    if (currentPastport == null)
+                    {
+                        currentPastport = new Passport() { Populating = true };
+
+                        foreach (string requirement in requirementsOnLine)
+                        {
+                            var property = currentPastport.GetType().GetProperty(currentTI.ToTitleCase(requirement.Split(":")[0]));
+                            property.SetValue(currentPastport, requirement.Split(":")[1]);
+                        }
+
+                        passports.Add(currentPastport);
+                    }
+                    else
+                    {
+                        foreach (string requirement in requirementsOnLine)
+                        {
+                            var property = currentPastport.GetType().GetProperty(currentTI.ToTitleCase(requirement.Split(":")[0]));
+                            property.SetValue(currentPastport, requirement.Split(":")[1]);
+                        }
+                    }
+                }
+                else
+                {
+                    passports.ToList().ForEach(p => p.Populating = false);
+                }
+            }
+
+            return passports.Where(p => p.IsValidForAutoValidation).Count();
         }
     }
 }

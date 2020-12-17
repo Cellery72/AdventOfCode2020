@@ -1,4 +1,4 @@
-﻿using AdventOfCode;
+﻿using AdventOfCode2020;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,21 +13,21 @@ namespace TestHarness
             Console.WriteLine("Welcome to Advent of Code 2020!");
             //Console.WriteLine("Day 1: Enter location of source text file");
             //var userPath = Console.ReadLine();
-            string userPath = @"D:\projects\AdventOfCode2020\Input\Day3.txt";
+            string userPath = @"C:\Users\Justin Ellery\Documents\Github\AdventOfCode2020\Input\Day4.txt";
             if(!string.IsNullOrEmpty(userPath))
             {
                 try
                 {
                     List<string> lines = File.ReadAllLines(userPath).ToList();
-                    List<Tuple<int, int>> slope = new List<Tuple<int, int>>()
-                    {
-                        new Tuple<int, int>(1,1),
-                        new Tuple<int, int>(1,3),
-                        new Tuple<int, int>(1,5),
-                        new Tuple<int, int>(1,7),
-                        new Tuple<int, int>(2,1)
-                    };
-                    var output = ChristmasMath.Day3Part2(lines, slope);
+                    //List<Tuple<int, int>> slope = new List<Tuple<int, int>>()
+                    //{
+                    //    new Tuple<int, int>(1,1),
+                    //    new Tuple<int, int>(1,3),
+                    //    new Tuple<int, int>(1,5),
+                    //    new Tuple<int, int>(1,7),
+                    //    new Tuple<int, int>(2,1)
+                    //};
+                    var output = ChristmasMath.Day4Part2(lines);
                     Console.WriteLine("And the answer is... " + output);
                 }
                 catch(Exception e)
