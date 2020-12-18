@@ -42,7 +42,7 @@ namespace AdventOfCode2020.Models
 
                     if (string.IsNullOrEmpty(Hgt) || (!Hgt.ToLower().EndsWith("in") && !Hgt.ToLower().EndsWith("cm")))
                         return false;
-                    else if (Hgt.ToLower().EndsWith("in")) 
+                    else if (Hgt.ToLower().EndsWith("in"))
                     {
                         string tempHeight = Hgt.Replace("in", string.Empty);
                         if (!tempHeight.All(c => char.IsDigit(c)))
@@ -63,7 +63,7 @@ namespace AdventOfCode2020.Models
                             return false;
                     }
 
-                    if(string.IsNullOrEmpty(Hcl) || !Hcl.StartsWith("#"))
+                    if (string.IsNullOrEmpty(Hcl) || !Hcl.StartsWith("#"))
                     {
                         return false;
                     }
@@ -71,7 +71,7 @@ namespace AdventOfCode2020.Models
                     {
                         Regex hairPattern = new Regex(@"^[a-f0-9]{6}$");
 
-                        string hairValue = Hcl.Substring(1, Hcl.Length-1);
+                        string hairValue = Hcl.Substring(1, Hcl.Length - 1);
                         if (hairValue.Any(c => !Char.IsLetterOrDigit(c)))
                             return false;
                         else if (hairValue.Length != 6)
@@ -93,18 +93,18 @@ namespace AdventOfCode2020.Models
 
                     if (string.IsNullOrEmpty(Pid))
                         return false;
-                    else if(Pid.Length!=9 || !Pid.All(c=>Char.IsDigit(c)))
+                    else if (Pid.Length != 9 || !Pid.All(c => Char.IsDigit(c)))
                     {
                         return false;
                     }
 
                     return true;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return false;
                 }
-            }        
+            }
         }
 
 

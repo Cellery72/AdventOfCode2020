@@ -93,14 +93,14 @@ namespace AdventOfCode2020
             int currentColumnNumber = 1;
             int totalTreesHit = 0;
 
-            for(int i=1; i<=totalLines;)
+            for (int i = 1; i <= totalLines;)
             {
                 string currentLine = input[i - 1];
 
-                if(currentColumnNumber>currentLine.Length)
+                if (currentColumnNumber > currentLine.Length)
                     currentColumnNumber = currentColumnNumber % currentLine.Length;
 
-                if(currentLine[currentColumnNumber-1]=='#')
+                if (currentLine[currentColumnNumber - 1] == '#')
                     totalTreesHit++;
 
 
@@ -110,7 +110,7 @@ namespace AdventOfCode2020
 
             return totalTreesHit;
         }
-        public static long Day3Part2(List<string> input, List<Tuple<int,int>> slopes)
+        public static long Day3Part2(List<string> input, List<Tuple<int, int>> slopes)
         {
             List<int> treesHit = new List<int>();
             long product = 0;
@@ -118,7 +118,7 @@ namespace AdventOfCode2020
             foreach (var slope in slopes)
                 treesHit.Add(Day3Part1(input, slope.Item1, slope.Item2));
 
-            for(int i=0; i< treesHit.Count;++i)
+            for (int i = 0; i < treesHit.Count; ++i)
             {
                 if (i != 0)
                     product *= treesHit[i];
@@ -132,19 +132,19 @@ namespace AdventOfCode2020
         public static int Day4Part1(List<string> input)
         {
             TextInfo currentTI = new CultureInfo("en-US", false).TextInfo;
-            ObservableCollection<Passport> passports = new ObservableCollection<Passport>();           
+            ObservableCollection<Passport> passports = new ObservableCollection<Passport>();
 
             foreach (string line in input)
             {
                 if (!string.IsNullOrEmpty(line))
                 {
                     string[] requirementsOnLine = line.Split(" ");
-                    Passport currentPastport = passports.FirstOrDefault(p=>p.Populating);
-                    if(currentPastport==null)
+                    Passport currentPastport = passports.FirstOrDefault(p => p.Populating);
+                    if (currentPastport == null)
                     {
-                        currentPastport = new Passport() { Populating = true};
+                        currentPastport = new Passport() { Populating = true };
 
-                        foreach(string requirement in requirementsOnLine)
+                        foreach (string requirement in requirementsOnLine)
                         {
                             var property = currentPastport.GetType().GetProperty(currentTI.ToTitleCase(requirement.Split(":")[0]));
                             property.SetValue(currentPastport, requirement.Split(":")[1]);
@@ -167,7 +167,7 @@ namespace AdventOfCode2020
                 }
             }
 
-            return passports.Where(p=>p.IsValid).Count();
+            return passports.Where(p => p.IsValid).Count();
         }
         public static int Day4Part2(List<string> input)
         {
@@ -208,6 +208,95 @@ namespace AdventOfCode2020
             }
 
             return passports.Where(p => p.IsValidForAutoValidation).Count();
+        }
+
+        public static int Day5Part1(List<string> input)
+        {
+            List<BoardingPass> boardingPasses = new List<BoardingPass>();
+
+            foreach (var line in input)
+                boardingPasses.Add(new BoardingPass(line));
+
+            return boardingPasses.Max(b => b.SeatID);
+        }
+        public static int Day5Part2(List<string> input)
+        {
+            List<BoardingPass> boardingPasses = new List<BoardingPass>();
+
+            foreach (var line in input)
+                boardingPasses.Add(new BoardingPass(line));
+
+            boardingPasses = boardingPasses.OrderBy(p => p.SeatID).ToList();
+
+            BoardingPass previousPass = null;
+
+            foreach (var pass in boardingPasses)
+                if (previousPass != null && (previousPass.SeatID + 2) == pass.SeatID)
+                    return pass.SeatID - 1;
+                else
+                    previousPass = pass;
+
+            return 0;
+        }
+
+        public static int Day6Part1(List<string> input)
+        {
+            ObservableCollection<SurveyAnswer> answers = new ObservableCollection<SurveyAnswer>();
+
+            foreach (var line in input)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    SurveyAnswer currentAnswer = answers.FirstOrDefault(a => a.Populating);
+                    if (currentAnswer == null)
+                    {
+                        currentAnswer = new SurveyAnswer(line);
+                        answers.Add(currentAnswer);
+                    }
+                    else
+                        currentAnswer.AddAnswerToList(line);
+                }
+                else
+                    answers.ToList().ForEach(a => a.Populating = false);
+            }
+
+            return answers.Sum(a => a.TotalAnswers);
+        }
+        public static int Day6Part2(List<string> input)
+        {
+            ObservableCollection<SurveyAnswer> answers = new ObservableCollection<SurveyAnswer>();
+
+            foreach (var line in input)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    SurveyAnswer currentAnswer = answers.FirstOrDefault(a => a.Populating);
+                    if (currentAnswer == null)
+                    {
+                        currentAnswer = new SurveyAnswer(line) { Populating = true };
+                        answers.Add(currentAnswer);
+                    }
+                    else
+                        currentAnswer.AddAnswerToList(line);
+                }
+                else
+                    answers.ToList().ForEach(a => a.Populating = false);
+            }
+
+            return answers.Sum(a => a.TotalSameAnswers);
+        }
+
+        public static int Day7Part1(List<string> input)
+        {
+            List<LuggageBag> luggageBags = new List<LuggageBag>();
+
+            foreach (var line in input)
+            {
+                luggageBags.Add(new LuggageBag(line));
+            }
+
+
+            return luggageBags.Count;
         }
     }
 }

@@ -13,7 +13,8 @@ namespace TestHarness
             Console.WriteLine("Welcome to Advent of Code 2020!");
             //Console.WriteLine("Day 1: Enter location of source text file");
             //var userPath = Console.ReadLine();
-            string userPath = @"C:\Users\Justin Ellery\Documents\Github\AdventOfCode2020\Input\Day4.txt";
+            string userPath = @"C:\Users\Justin Ellery\Documents\Github\AdventOfCode2020\Input\Day7.txt";
+            //string userPath = @"C:\Users\Justin Ellery\Documents\Github\AdventOfCode2020\Input\Day5.txt";
             if(!string.IsNullOrEmpty(userPath))
             {
                 try
@@ -27,7 +28,7 @@ namespace TestHarness
                     //    new Tuple<int, int>(1,7),
                     //    new Tuple<int, int>(2,1)
                     //};
-                    var output = ChristmasMath.Day4Part2(lines);
+                    var output = ChristmasMath.Day7Part1(lines);
                     Console.WriteLine("And the answer is... " + output);
                 }
                 catch(Exception e)
